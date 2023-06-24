@@ -9,7 +9,7 @@ import java.util.List;
 public interface DroneService {
     public List<Drone> showDrones();
     public Drone registerDrone(Drone drone);
-    public void updateDrone(Drone drone);
+    public Drone updateDrone(Drone drone);
     public Drone findDroneById(int id);
     public void deleteDroneById(int id);
 }

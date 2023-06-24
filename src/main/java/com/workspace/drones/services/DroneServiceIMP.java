@@ -23,8 +23,9 @@ public class DroneServiceIMP implements DroneService{
     }
 
     @Override
-    public void updateDrone(Drone drone) {
+    public Drone updateDrone(Drone drone) {
         droneRepository.save(drone);
+        return drone;
     }
 
     @Override
