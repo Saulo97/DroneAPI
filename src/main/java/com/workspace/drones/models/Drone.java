@@ -14,9 +14,9 @@ public class Drone {
     @Column(name = "serialNumber")
     private String serialNumber;
     @Column(name = "model")
-    private String model;
-    @Column(name = "weight")
-    private int weight;
+    private DroneModel model;
+    @Column(name = "weightLimit")
+    private int weightLimit;
     @Column(name = "batteryCapacity")
     private int batteryCapacity;
     @Column(name = "state")
@@ -43,20 +43,20 @@ public class Drone {
         this.serialNumber = serialNumber;
     }
 
-    public String getModel() {
+    public DroneModel getModel() {
         return model;
     }
 
-    public void setModel(String model) {
+    public void setModel(DroneModel model) {
         this.model = model;
     }
 
-    public int getWeight() {
-        return weight;
+    public int getWeightLimit() {
+        return weightLimit;
     }
 
-    public void setWeight(int weight) {
-        this.weight = weight;
+    public void setWeightLimit(int weightLimit) {
+        this.weightLimit = weightLimit;
     }
 
     public int getBatteryCapacity() {
