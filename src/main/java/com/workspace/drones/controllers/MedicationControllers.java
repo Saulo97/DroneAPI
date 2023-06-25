@@ -1,5 +1,7 @@
 package com.workspace.drones.controllers;
 
+import com.workspace.drones.customException.NotLoadDroneException;
+import com.workspace.drones.customException.WeightLimitException;
 import com.workspace.drones.dto.MedicationDTO;
 import com.workspace.drones.models.Medication;
 import com.workspace.drones.services.MedicationServiceIMP;
@@ -19,13 +21,13 @@ public class MedicationControllers {
     @GetMapping
     @RequestMapping(value = "/findLoadByDroneId/{id}",method = RequestMethod.GET)
     public ResponseEntity<?> findLoadByDroneId(@PathVariable int id){
-        List<MedicationDTO> loadList = medicationServiceIMP.getLoadByDroneId(id);
-        return ResponseEntity.ok(loadList);
+        MedicationDTO load = medicationServiceIMP.getLoadByDroneId(id);
+        return ResponseEntity.ok(load);
     }
     @PostMapping
-    @RequestMapping(value = "/loadingDrone",method = RequestMethod.POST)
-    public ResponseEntity<?> loadingDrone(@RequestBody Medication medication){
-        MedicationDTO medicationOrder = medicationServiceIMP.loadingDronById(medication);
+    @RequestMapping(value = "/loadingDrone/{id}",method = RequestMethod.POST)
+    public ResponseEntity<?> loadingDrone(@PathVariable int id, @RequestBody Medication medication) throws NotLoadDroneException, WeightLimitException {
+        MedicationDTO medicationOrder = medicationServiceIMP.loadingDronById(medication, id);
         return ResponseEntity.status(HttpStatus.CREATED).body(medicationOrder);
     }
     @GetMapping

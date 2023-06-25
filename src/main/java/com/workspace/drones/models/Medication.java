@@ -21,7 +21,7 @@ public class Medication {
     private String code;
     @Column(name = "image")
     private String image;
-    @ManyToOne
+    @OneToOne(orphanRemoval = true,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "drone_id")
     private Drone drone;
     public Medication(){}

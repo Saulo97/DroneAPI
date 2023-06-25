@@ -49,8 +49,8 @@ public class DroneServiceIMP implements DroneService{
     @Override
     public void deleteDroneById(int id) {
         Drone targetDrone = droneRepository.findById(id).get();
-        List<Medication> load = targetDrone.getLoad();
-        load.forEach(medication->medicationRepository.deleteById(medication.getId()));
+        Medication load = targetDrone.getLoad();
+        medicationRepository.deleteById(load.getId());
         droneRepository.deleteById(targetDrone.getId());
     }
 

@@ -25,8 +25,8 @@ public class Drone {
     private int batteryCapacity;
     @Column(name = "state")
     private DroneStates state;
-    @OneToMany(mappedBy = "drone", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<Medication> load = new ArrayList<>();
+    @OneToOne(mappedBy = "drone", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private Medication load;
 
     public Drone(){
 
@@ -79,11 +79,11 @@ public class Drone {
         this.state = state;
     }
 
-    public List<Medication> getLoad() {
+    public Medication getLoad() {
         return load;
     }
 
-    public void setLoad(List<Medication> load) {
+    public void setLoad(Medication load) {
         this.load = load;
     }
     public DroneDTO mapToDronDTO(){
