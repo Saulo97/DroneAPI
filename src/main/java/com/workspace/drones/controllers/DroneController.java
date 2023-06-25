@@ -60,7 +60,7 @@ public class DroneController {
         return ResponseEntity.ok(list);
     }
     @GetMapping
-    @RequestMapping(value="/getAvailableDron",method = RequestMethod.GET)
+    @RequestMapping(value="/getAvailablesDrones",method = RequestMethod.GET)
     public ResponseEntity<?> getAvailableDron(){
         List<DroneDTO> list = droneServiceIMP.getAvailablesDrones();
         return ResponseEntity.ok(list);
