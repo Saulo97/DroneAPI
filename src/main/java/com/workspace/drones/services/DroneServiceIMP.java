@@ -30,12 +30,18 @@ public class DroneServiceIMP implements DroneService{
 
     @Override
     public DroneDTO registerDrone(Drone drone) {
+        if(drone.getBatteryCapacity()<25){
+            drone.setState(DroneStates.LOADING);
+        }
         Drone savedDrone=droneRepository.save(drone);
         return savedDrone.mapToDronDTO();
     }
 
     @Override
     public DroneDTO updateDrone(Drone drone) {
+        if(drone.getBatteryCapacity()<25){
+            drone.setState(DroneStates.LOADING);
+        }
         Drone savedDrone=droneRepository.save(drone);
         return savedDrone.mapToDronDTO();
     }

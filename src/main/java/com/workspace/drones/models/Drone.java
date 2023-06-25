@@ -13,17 +13,17 @@ import java.util.List;
 public class Drone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id",nullable = false)
     private int id;
-    @Column(name = "serialNumber")
+    @Column(name = "serialNumber",nullable = false)
     private String serialNumber;
-    @Column(name = "model")
+    @Column(name = "model",nullable = false)
     private DroneModel model;
-    @Column(name = "weightLimit")
+    @Column(name = "weightLimit",nullable = false)
     private int weightLimit;
-    @Column(name = "batteryCapacity")
+    @Column(name = "batteryCapacity",nullable = false)
     private int batteryCapacity;
-    @Column(name = "state")
+    @Column(name = "state",nullable = false)
     private DroneStates state;
     @OneToOne(mappedBy = "drone", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private Medication load;

@@ -41,7 +41,7 @@ public class MedicationServiceIMP implements MedicationService{
         Drone targetDrone = droneRepository.findById(id).get();
         if(targetDrone.getWeightLimit() < medication.getWeight()){
             throw new WeightLimitException("The medication's weight is more that expect");
-        } else if(targetDrone.getLoad()==null) {
+        } else if(targetDrone.getState()==DroneStates.IDLE) {
             medication.setDrone(targetDrone);
             Medication newMedication = medicationRepository.save(medication);
             targetDrone.setState(DroneStates.LOADED);

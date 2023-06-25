@@ -2,6 +2,7 @@ package com.workspace.drones;
 
 import com.workspace.drones.customException.NotLoadDroneException;
 import com.workspace.drones.customException.WeightLimitException;
+import org.hibernate.PropertyValueException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -27,5 +28,11 @@ public class HandlerException {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public  String handlerWeightLimitException( WeightLimitException exception){
         return "El peso del medicamento excede el peso limite del dron";
+    }
+
+    @ExceptionHandler(PropertyValueException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public String handlerPropertyValueException (PropertyValueException exception){
+        return "Rellene todos los campos ";
     }
 }
