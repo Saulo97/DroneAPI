@@ -17,13 +17,10 @@ public class Medication {
     private String code;
     @Column(name = "image")
     private String image;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "drone_id")
     private Drone drones;
-
-    public Medication(){
-
-    }
-
+    public Medication(){}
     public void setId(int id) {
         this.id = id;
     }
