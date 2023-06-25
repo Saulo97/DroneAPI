@@ -10,7 +10,7 @@ public interface DroneService {
     public List<DroneDTO> showDrones();
     public DroneDTO registerDrone(Drone drone);
     public DroneDTO updateDrone(Drone drone);
-    public DroneDTO findDroneById(int id);
+    public DroneDTO findDroneById(int id) throws Exception;
     public void deleteDroneById(int id);
     public List<DroneDTO> getAvailablesDrones();
     public DroneDTO getDroneByMedicationId(int id);

@@ -1,9 +1,6 @@
 package com.workspace.drones.controllers;
 import com.workspace.drones.dto.DroneDTO;
 import com.workspace.drones.models.Drone;
-import com.workspace.drones.models.Medication;
-import com.workspace.drones.repositories.DroneRepository;
-import com.workspace.drones.repositories.MedicationRepository;
 import com.workspace.drones.services.DroneServiceIMP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +14,6 @@ import java.util.List;
 public class DroneController {
     @Autowired
     private DroneServiceIMP droneServiceIMP;
-    private MedicationRepository repo;
 
     @GetMapping
     @RequestMapping(value = "/getDrones", method = RequestMethod.GET)
