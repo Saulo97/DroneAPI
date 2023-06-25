@@ -8,7 +8,6 @@ import com.workspace.drones.models.DroneStates;
 import com.workspace.drones.models.Medication;
 import com.workspace.drones.repositories.DroneRepository;
 import com.workspace.drones.repositories.MedicationRepository;
-import org.springframework.beans.NotWritablePropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,13 +52,17 @@ public class MedicationServiceIMP implements MedicationService{
     }
 
     @Override
-    public MedicationDTO findMedicationById(int id) {
+    public MedicationDTO findMedicationById(int id){
         return medicationRepository.findById(id).get().mapToDTO();
     }
 
     @Override
     public void deleteById(int id) {
-        medicationRepository.deleteById(id);
+        Medication targetMedication = medicationRepository.findById(id).get();
+        Drone targetDrone = droneRepository.findById(targetMedication.getDrone().getId()).get();
+        targetDrone.setLoad(null);
+        targetDrone.setState(DroneStates.IDLE);
+        droneRepository.save(targetDrone);
     }
 
 

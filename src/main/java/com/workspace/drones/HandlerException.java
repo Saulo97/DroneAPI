@@ -35,4 +35,9 @@ public class HandlerException {
     public String handlerPropertyValueException (PropertyValueException exception){
         return "Rellene todos los campos ";
     }
+    @ExceptionHandler(NullPointerException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public String handlerNullPointerException(NullPointerException exception){
+        return "No se encuentra el elemento especificado";
+    }
 }

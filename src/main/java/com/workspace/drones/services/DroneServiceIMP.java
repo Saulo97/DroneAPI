@@ -1,6 +1,5 @@
 package com.workspace.drones.services;
 import com.workspace.drones.dto.DroneDTO;
-import com.workspace.drones.dto.MedicationDTO;
 import com.workspace.drones.models.Drone;
 import com.workspace.drones.models.DroneStates;
 import com.workspace.drones.models.Medication;
@@ -55,8 +54,6 @@ public class DroneServiceIMP implements DroneService{
     @Override
     public void deleteDroneById(int id) {
         Drone targetDrone = droneRepository.findById(id).get();
-        Medication load = targetDrone.getLoad();
-        medicationRepository.deleteById(load.getId());
         droneRepository.deleteById(targetDrone.getId());
     }
 
