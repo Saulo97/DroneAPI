@@ -4,6 +4,7 @@ import com.workspace.drones.models.DroneModel;
 import com.workspace.drones.models.DroneStates;
 
 public class DroneDTO {
+    private int id;
     private String serialNumber;
     private DroneModel model;
     private int weightLimit;
@@ -48,5 +49,12 @@ public class DroneDTO {
 
     public void setState(DroneStates state) {
         this.state = state;
+    }
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -1,6 +1,10 @@
 package com.workspace.drones.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.workspace.drones.dto.MedicationDTO;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "medications")
@@ -17,9 +21,9 @@ public class Medication {
     private String code;
     @Column(name = "image")
     private String image;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "drone_id")
-    private Drone drones;
+    private Drone drone;
     public Medication(){}
     public void setId(int id) {
         this.id = id;
@@ -58,11 +62,11 @@ public class Medication {
     }
 
     public Drone getDrone() {
-        return drones;
+        return drone;
     }
 
     public void setDrone(Drone drone) {
-        this.drones = drone;
+        this.drone = drone;
     }
 
     public void setId(Integer id) {
@@ -71,5 +75,15 @@ public class Medication {
 
     public int getId() {
         return id;
+    }
+    public MedicationDTO mapToDTO(){
+        MedicationDTO medicationDTO = new MedicationDTO();
+        medicationDTO.setId(this.getId());
+        medicationDTO.setCode(this.getCode());
+        medicationDTO.setName(this.getName());
+        medicationDTO.setImage(this.getImage());
+        medicationDTO.setWeight(this.getWeight());
+        medicationDTO.setDrone(this.getDrone().mapToDronDTO());
+        return medicationDTO;
     }
 }

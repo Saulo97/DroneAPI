@@ -1,9 +1,11 @@
 package com.workspace.drones.services;
 import com.workspace.drones.dto.DroneDTO;
+import com.workspace.drones.dto.MedicationDTO;
 import com.workspace.drones.models.Drone;
 import com.workspace.drones.models.DroneStates;
 import com.workspace.drones.models.Medication;
 import com.workspace.drones.repositories.DroneRepository;
+import com.workspace.drones.repositories.MedicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +16,14 @@ import java.util.List;
 public class DroneServiceIMP implements DroneService{
     @Autowired
     private DroneRepository droneRepository;
+    @Autowired
+    private MedicationRepository medicationRepository;
     @Override
     public List<DroneDTO> showDrones() {
         List<Drone> droneList = droneRepository.findAll();
         List<DroneDTO> allDrones = new ArrayList<DroneDTO>();
         droneList.forEach(drone->{
-            allDrones.add(mapToDronDTO(drone));
+            allDrones.add(drone.mapToDronDTO());
         });
         return allDrones;
     }
@@ -27,61 +31,45 @@ public class DroneServiceIMP implements DroneService{
     @Override
     public DroneDTO registerDrone(Drone drone) {
         Drone savedDrone=droneRepository.save(drone);
-        return mapToDronDTO(savedDrone);
+        return savedDrone.mapToDronDTO();
     }
 
     @Override
     public DroneDTO updateDrone(Drone drone) {
         Drone savedDrone=droneRepository.save(drone);
-        return mapToDronDTO(savedDrone);
+        return savedDrone.mapToDronDTO();
     }
 
     @Override
     public DroneDTO findDroneById(int id) {
         Drone foundDrone = droneRepository.findById(id).get();
-        return mapToDronDTO(foundDrone);
+        return foundDrone.mapToDronDTO();
     }
 
     @Override
     public void deleteDroneById(int id) {
-        droneRepository.deleteById(id);
+        Drone targetDrone = droneRepository.findById(id).get();
+        List<Medication> load = targetDrone.getLoad();
+        load.forEach(medication->medicationRepository.deleteById(medication.getId()));
+        droneRepository.deleteById(targetDrone.getId());
     }
 
-    @Override
-    public List<Medication> getLoadByDroneId(int id) {
-        DroneDTO foundDrone = findDroneById(id);
-        //List<Medication> loadDrone = foundDrone.getLoad();
-       //List<Medication> loadList = new ArrayList<Medication>();
-       // loadDrone.forEach(x->{
-        //    Medication load = new Medication();
-      //      load.setId(x.getId());
-       //     load.setCode(x.getCode());
-     //       load.setName(x.getName());
-    //        load.setWeight(x.getWeight());
-      //      load.setImage(x.getImage());
-      //      loadList.add(load);
-     //   });
-      //  return loadList;
-        return null;
-    }
+
 
     @Override
     public List<DroneDTO> getAvailablesDrones() {
         List<Drone> dronelist = droneRepository.findDroneByStateEquals(DroneStates.IDLE);
         List<DroneDTO> availablesDrones = new ArrayList<DroneDTO>();
         dronelist.forEach(drone->{
-            availablesDrones.add(mapToDronDTO(drone));
+            availablesDrones.add(drone.mapToDronDTO());
         });
         return availablesDrones;
     }
 
-    public DroneDTO mapToDronDTO(Drone drone){
-        DroneDTO droneDTO = new DroneDTO();
-        droneDTO.setModel(drone.getModel());
-        droneDTO.setSerialNumber(drone.getSerialNumber());
-        droneDTO.setState(drone.getState());
-        droneDTO.setBatteryCapacity(drone.getBatteryCapacity());
-        droneDTO.setWeightLimit(drone.getWeightLimit());
-        return droneDTO;
+    @Override
+    public DroneDTO getDroneByMedicationId(int id) {
+        Medication targetMedication = medicationRepository.findById(id).get();
+        DroneDTO result = droneRepository.findDroneByLoad(targetMedication).mapToDronDTO();
+        return result;
     }
 }

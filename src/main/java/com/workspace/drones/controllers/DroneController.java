@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("DroneAPI")
+@RequestMapping("DroneAPI/Drone")
 public class DroneController {
     @Autowired
     private DroneServiceIMP droneServiceIMP;
@@ -54,15 +54,23 @@ public class DroneController {
     }
 
     @GetMapping
-    @RequestMapping(value="/getLoadByDroneId/{id}",method = RequestMethod.GET)
-    public ResponseEntity<?> getLoadByDroneId(@PathVariable int id){
-        List<Medication> list = droneServiceIMP.getLoadByDroneId(id);
-        return ResponseEntity.ok(list);
-    }
-    @GetMapping
     @RequestMapping(value="/getAvailablesDrones",method = RequestMethod.GET)
     public ResponseEntity<?> getAvailableDron(){
         List<DroneDTO> list = droneServiceIMP.getAvailablesDrones();
         return ResponseEntity.ok(list);
+    }
+
+    @GetMapping
+    @RequestMapping(value = "/checkBatteryLevel/{id}",method = RequestMethod.GET)
+    public ResponseEntity<?> checkBattery(@PathVariable int id){
+        DroneDTO foundDrone = droneServiceIMP.findDroneById(id);
+        return ResponseEntity.ok(foundDrone.getBatteryCapacity());
+    }
+
+    @GetMapping
+    @RequestMapping(value = "/getDroneByLoadId/{id}",method = RequestMethod.GET)
+    public ResponseEntity<?> getDroneByLoad(@PathVariable int id){
+        DroneDTO foundDrone = droneServiceIMP.getDroneByMedicationId(id);
+        return ResponseEntity.ok(foundDrone);
     }
 }
