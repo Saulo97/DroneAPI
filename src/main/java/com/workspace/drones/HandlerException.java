@@ -39,7 +39,7 @@ public class HandlerException {
     @ExceptionHandler(PropertyValueException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handlerPropertyValueException (PropertyValueException exception){
-        return "Rellene todos los campos correctamente" ;
+        return "Rellene todos los campos correctament" ;
     }
 
     @ExceptionHandler(NullPointerException.class)
