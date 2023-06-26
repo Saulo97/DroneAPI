@@ -39,7 +39,7 @@ public class HandlerException {
     @ExceptionHandler(PropertyValueException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handlerPropertyValueException (PropertyValueException exception){
-        return "Rellene todos los campos permitidos" ;
+        return "Rellene todos los campos correctamente" ;
     }
 
     @ExceptionHandler(NullPointerException.class)
@@ -52,7 +52,7 @@ public class HandlerException {
     public String HttpMessageNotReadableException(HttpMessageNotReadableException exception){
         String m = exception.getMessage();
         System.out.println(m);
-        return "Rellene todos los campos";
+        return "Rellene todos los campos correctamente";
     }
     @ExceptionHandler(MaxWeightException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
