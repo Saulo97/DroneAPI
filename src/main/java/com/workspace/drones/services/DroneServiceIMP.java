@@ -1,4 +1,5 @@
 package com.workspace.drones.services;
+import com.workspace.drones.customException.MaxWeightException;
 import com.workspace.drones.dto.DroneDTO;
 import com.workspace.drones.models.Drone;
 import com.workspace.drones.models.DroneStates;
@@ -28,9 +29,12 @@ public class DroneServiceIMP implements DroneService{
     }
 
     @Override
-    public DroneDTO registerDrone(Drone drone) {
+    public DroneDTO registerDrone(Drone drone) throws MaxWeightException {
         if(drone.getBatteryCapacity()<25){
             drone.setState(DroneStates.LOADING);
+        }
+        if(drone.getWeightLimit()>500){
+            throw new MaxWeightException("The weiht limit max is 500grs");
         }
         Drone savedDrone=droneRepository.save(drone);
         return savedDrone.mapToDronDTO();

@@ -1,36 +1,39 @@
 package com.workspace.drones.models;
 
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import com.workspace.drones.dto.DroneDTO;
 import jakarta.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import jakarta.validation.constraints.*;
+import jakarta.validation.valueextraction.ExtractedValue;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "drones")
 public class Drone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id",nullable = false)
+    @Column(name = "id")
     private int id;
-    @Column(name = "serialNumber",nullable = false)
+
+    @Size(max = 100, message = "El numero de serie debe tener un maximo de 100 caracteres")
+    @NotBlank(message = "este dato no debe estar vacio o ser null")
+    @NotNull(message = "este dato no debe estar vacio o ser null")
+    @Column(name = "serial_number")
     private String serialNumber;
-    @Column(name = "model",nullable = false)
+    @Column(name = "model")
     private DroneModel model;
-    @Column(name = "weightLimit",nullable = false)
+    @Column(name = "weight_limit")
+    @Min(value = 1,message = "El limite de peso debe ser mayor que 0")
     private int weightLimit;
-    @Column(name = "batteryCapacity",nullable = false)
+    @Min(value = 1, message = "La capacidad de la bateria debe ser un valor entre 0 y 100")
+    @Max(value = 100, message = "La capacidad de la bateria debe ser un valor entre 0 y 100")
+    @Column(name = "battery_capacity")
     private int batteryCapacity;
-    @Column(name = "state",nullable = false)
+    @Column(name = "state")
     private DroneStates state;
     @OneToOne(mappedBy = "drone", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private Medication load;
 
-    public Drone(){
-
-    }
     public int getId() {
         return id;
     }

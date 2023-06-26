@@ -3,8 +3,8 @@ package com.workspace.drones.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.workspace.drones.dto.MedicationDTO;
 import jakarta.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import jakarta.validation.constraints.*;
+
 
 @Entity
 @Table(name = "medications")
@@ -14,17 +14,25 @@ public class Medication {
     @Column(name = "id")
     private int id;
     @Column(name = "name")
+    @Pattern(regexp = "^[a-zA-Z0-9-_]*$",message = "code only must have letter, numbers, '-', '_'")
+    @NotBlank(message = "este dato no debe estar vacio o nulo")
+    @NotNull(message = "este dato no debe estar vacio o nulo")
     private String name;
     @Column(name = "weight")
+    @Min(1)
     private int weight;
     @Column(name = "code")
+    @NotBlank(message = "este dato no debe estar vacio o nulo")
+    @NotNull(message = "este dato no debe estar vacio o nulo")
+    @Pattern(regexp = "^[0-9A-Z_]*$",message = "code only must have upper case, underscore and numbers")
     private String code;
     @Column(name = "image")
+    @NotBlank(message = "este dato no debe estar vacio o nulo")
+    @NotNull(message = "este dato no debe estar vacio o nulo")
     private String image;
     @OneToOne()
     @JoinColumn(name = "drone_id")
     private Drone drone;
-    public Medication(){}
     public void setId(int id) {
         this.id = id;
     }

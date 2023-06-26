@@ -5,6 +5,7 @@ import com.workspace.drones.customException.WeightLimitException;
 import com.workspace.drones.dto.MedicationDTO;
 import com.workspace.drones.models.Medication;
 import com.workspace.drones.services.MedicationServiceIMP;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class MedicationControllers {
     }
     @PostMapping
     @RequestMapping(value = "/loadingDrone/{id}",method = RequestMethod.POST)
-    public ResponseEntity<?> loadingDrone(@PathVariable int id, @RequestBody Medication medication) throws NotLoadDroneException, WeightLimitException {
+    public ResponseEntity<?> loadingDrone( @PathVariable int id,@Valid @RequestBody Medication medication) throws NotLoadDroneException, WeightLimitException {
         MedicationDTO medicationOrder = medicationServiceIMP.loadingDronById(medication, id);
         return ResponseEntity.status(HttpStatus.CREATED).body(medicationOrder);
     }
