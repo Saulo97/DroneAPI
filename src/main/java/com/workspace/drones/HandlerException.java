@@ -67,6 +67,8 @@ public class HandlerException {
             message = "IDLE, LOADING, LOADED, DELIVERING,DELIVERED,RETURNING";
         }else if(field.equals("model")){
             message = "Lightweight, Middleweight, Cruiserweight, Heavyweight";
+        }else {
+            return "El valor de la propiedad "+field+" no es correcto";
         }
         return "El valor de la propiedad: "+field+" debe ser alguno de los strings siguientes: "+message;
     }
