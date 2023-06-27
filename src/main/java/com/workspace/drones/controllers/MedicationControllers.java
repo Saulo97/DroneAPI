@@ -22,7 +22,7 @@ public class MedicationControllers {
     @GetMapping
     @RequestMapping(value = "/findLoadByDroneId/{id}",method = RequestMethod.GET)
     public ResponseEntity<?> findLoadByDroneId(@PathVariable int id){
-        MedicationDTO load = medicationServiceIMP.getLoadByDroneId(id);
+        List<MedicationDTO> load = medicationServiceIMP.getLoadByDroneId(id);
         return ResponseEntity.ok(load);
     }
     @PostMapping

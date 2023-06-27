@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public interface MedicationService {
-    public MedicationDTO getLoadByDroneId(int id);
+    public List<MedicationDTO> getLoadByDroneId(int id);
     public List<MedicationDTO> showAllMedications();
     public MedicationDTO loadingDronById(Medication medication, int id) throws NotLoadDroneException, WeightLimitException;
     public MedicationDTO findMedicationById(int id);

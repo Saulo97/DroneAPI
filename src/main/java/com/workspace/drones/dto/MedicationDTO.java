@@ -8,14 +8,12 @@ public class MedicationDTO {
     private int weight;
     private String code;
     private String image;
-    private DroneDTO drone;
+
     public MedicationDTO(){
 
     }
 
-    public DroneDTO getDrone() {
-        return drone;
-    }
+
     public int getId() {
         return id;
     }
@@ -23,9 +21,7 @@ public class MedicationDTO {
     public void setId(int id) {
         this.id = id;
     }
-    public void setDrone(DroneDTO drone) {
-        this.drone = drone;
-    }
+
 
     public String getName() {
         return name;

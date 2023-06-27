@@ -20,9 +20,13 @@ public class MedicationServiceIMP implements MedicationService{
     @Autowired
     DroneRepository droneRepository;
     @Override
-    public MedicationDTO getLoadByDroneId(int id) {
-        Medication foundMedication = medicationRepository.findMedicationsByDroneId(id);
-        return foundMedication.mapToDTO();
+    public List<MedicationDTO> getLoadByDroneId(int id) {
+        List<Medication> foundMedication = medicationRepository.findMedicationsByDroneId(id);
+        List<MedicationDTO> medication = new ArrayList<MedicationDTO>();
+        foundMedication.forEach(load->{
+            medication.add(load.mapToDTO());
+        });
+        return medication;
     }
 
     @Override
@@ -38,16 +42,20 @@ public class MedicationServiceIMP implements MedicationService{
     @Override
     public MedicationDTO loadingDronById(Medication medication, int id) throws NotLoadDroneException, WeightLimitException {
         Drone targetDrone = droneRepository.findById(id).get();
-        if(targetDrone.getWeightLimit() < medication.getWeight()){
+        List<Medication> loadTargetDrone = targetDrone.getLoad();
+        int actualWeight = 0;
+        for(Medication load: loadTargetDrone){
+            actualWeight=+ load.getWeight();
+        }
+        if(targetDrone.getWeightLimit() < medication.getWeight()+actualWeight){
             throw new WeightLimitException("The medication's weight is more that expect");
-        } else if(targetDrone.getState()==DroneStates.IDLE) {
+        } else if(targetDrone.getState()==DroneStates.DELIVERING) {
+            throw new NotLoadDroneException("This drone is not available");
+        }else{
             medication.setDrone(targetDrone);
             Medication newMedication = medicationRepository.save(medication);
-            targetDrone.setState(DroneStates.LOADED);
             droneRepository.save(targetDrone);
             return newMedication.mapToDTO();
-        }else{
-            throw new NotLoadDroneException("This drone is not available");
         }
     }
 
@@ -58,11 +66,7 @@ public class MedicationServiceIMP implements MedicationService{
 
     @Override
     public void deleteById(int id) {
-        Medication targetMedication = medicationRepository.findById(id).get();
-        Drone targetDrone = droneRepository.findById(targetMedication.getDrone().getId()).get();
-        targetDrone.setLoad(null);
-        targetDrone.setState(DroneStates.IDLE);
-        droneRepository.save(targetDrone);
+        medicationRepository.deleteById(id);
     }
 
 

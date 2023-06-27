@@ -30,7 +30,7 @@ public class Medication {
     @NotBlank(message = "este dato no debe estar vacio o nulo")
     @NotNull(message = "este dato no debe estar vacio o nulo")
     private String image;
-    @OneToOne()
+    @ManyToOne()
     @JoinColumn(name = "drone_id")
     private Drone drone;
     public void setId(int id) {
@@ -91,7 +91,6 @@ public class Medication {
         medicationDTO.setName(this.getName());
         medicationDTO.setImage(this.getImage());
         medicationDTO.setWeight(this.getWeight());
-        medicationDTO.setDrone(this.getDrone().mapToDronDTO());
         return medicationDTO;
     }
 }

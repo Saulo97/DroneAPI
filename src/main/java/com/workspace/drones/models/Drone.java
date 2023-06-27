@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.valueextraction.ExtractedValue;
 
+import java.util.List;
+
 
 @Entity
 @Table(name = "drones")
@@ -31,8 +33,8 @@ public class Drone {
     private int batteryCapacity;
     @Column(name = "state")
     private DroneStates state;
-    @OneToOne(mappedBy = "drone", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private Medication load;
+    @OneToMany(mappedBy = "drone", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Medication> load;
 
     public int getId() {
         return id;
@@ -82,11 +84,11 @@ public class Drone {
         this.state = state;
     }
 
-    public Medication getLoad() {
+    public List<Medication> getLoad() {
         return load;
     }
 
-    public void setLoad(Medication load) {
+    public void setLoad(List<Medication> load) {
         this.load = load;
     }
     public DroneDTO mapToDronDTO(){
