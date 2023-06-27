@@ -1,7 +1,9 @@
 package com.workspace.drones.controllers;
 import com.workspace.drones.customException.MaxWeightException;
+import com.workspace.drones.customException.NotLoadDroneException;
 import com.workspace.drones.dto.DroneDTO;
 import com.workspace.drones.models.Drone;
+import com.workspace.drones.models.DroneStates;
 import com.workspace.drones.services.DroneServiceIMP;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

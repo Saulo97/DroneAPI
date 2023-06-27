@@ -1,8 +1,12 @@
 package com.workspace.drones;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.workspace.drones.customException.MaxWeightException;
 import com.workspace.drones.customException.NotLoadDroneException;
 import com.workspace.drones.customException.WeightLimitException;
+import com.workspace.drones.models.DroneStates;
 import org.hibernate.PropertyValueException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -12,9 +16,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.awt.event.WindowStateListener;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.*;
 
 @RestControllerAdvice
 public class HandlerException {
@@ -49,10 +54,21 @@ public class HandlerException {
     }
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String HttpMessageNotReadableException(HttpMessageNotReadableException exception){
-        String m = exception.getMessage();
-        System.out.println(m);
-        return "Rellene todos los campos correctamente";
+    public String HttpMessageNotReadableException(HttpMessageNotReadableException exception) throws IOException {
+        Throwable cause =exception.getCause();
+        String message = "";
+        String field = "";
+        if(cause instanceof InvalidFormatException){
+            field = ((InvalidFormatException) cause).getPath().get(0).getFieldName();
+        }else if(cause instanceof JsonParseException) {
+            field = ((JsonParseException) cause).getProcessor().currentName();
+        }
+        if(field.equals("state")){
+            message = "IDLE, LOADING, LOADED, DELIVERING,DELIVERED,RETURNING";
+        }else if(field.equals("model")){
+            message = "Lightweight, Middleweight, Cruiserweight, Heavyweight";
+        }
+        return "El valor de la propiedad: "+field+" debe ser alguno de los strings siguientes: "+message;
     }
     @ExceptionHandler(MaxWeightException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

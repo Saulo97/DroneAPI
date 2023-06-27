@@ -1,5 +1,6 @@
 package com.workspace.drones.services;
 import com.workspace.drones.customException.MaxWeightException;
+import com.workspace.drones.customException.NotLoadDroneException;
 import com.workspace.drones.dto.DroneDTO;
 import com.workspace.drones.models.Drone;
 import org.springframework.stereotype.Service;

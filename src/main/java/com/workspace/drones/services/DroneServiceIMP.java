@@ -1,5 +1,6 @@
 package com.workspace.drones.services;
 import com.workspace.drones.customException.MaxWeightException;
+import com.workspace.drones.customException.NotLoadDroneException;
 import com.workspace.drones.dto.DroneDTO;
 import com.workspace.drones.models.Drone;
 import com.workspace.drones.models.DroneStates;
@@ -7,9 +8,11 @@ import com.workspace.drones.models.Medication;
 import com.workspace.drones.repositories.DroneRepository;
 import com.workspace.drones.repositories.MedicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -30,11 +33,13 @@ public class DroneServiceIMP implements DroneService{
 
     @Override
     public DroneDTO registerDrone(Drone drone) throws MaxWeightException {
-        if(drone.getBatteryCapacity()<25){
-            drone.setState(DroneStates.LOADING);
-        }
-        if(drone.getWeightLimit()>500){
+        if(!drone.getState().isDroneState(drone.getState().toString())){
+            throw new HttpMessageNotReadableException("exception por tipo de state");
+        }else if(drone.getWeightLimit()>500){
             throw new MaxWeightException("The weiht limit max is 500grs");
+
+        } else if(drone.getBatteryCapacity()<25){
+            drone.setState(DroneStates.LOADING);
         }
         Drone savedDrone=droneRepository.save(drone);
         return savedDrone.mapToDronDTO();
