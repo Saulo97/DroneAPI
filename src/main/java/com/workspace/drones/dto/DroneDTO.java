@@ -2,6 +2,9 @@ package com.workspace.drones.dto;
 
 import com.workspace.drones.models.DroneModel;
 import com.workspace.drones.models.DroneStates;
+import com.workspace.drones.models.Medication;
+
+import java.util.List;
 
 public class DroneDTO {
     private int id;
@@ -10,6 +13,7 @@ public class DroneDTO {
     private int weightLimit;
     private int batteryCapacity;
     private DroneStates state;
+    private List<MedicationDTO> load;
 
     public String getSerialNumber() {
         return serialNumber;
@@ -56,5 +60,13 @@ public class DroneDTO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public List<MedicationDTO> getLoad() {
+        return load;
+    }
+
+    public void setLoad(List<MedicationDTO> load) {
+        this.load = load;
     }
 }

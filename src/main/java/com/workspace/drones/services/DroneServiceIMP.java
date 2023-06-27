@@ -33,14 +33,16 @@ public class DroneServiceIMP implements DroneService{
 
     @Override
     public DroneDTO registerDrone(Drone drone) throws MaxWeightException {
-        if(!drone.getState().isDroneState(drone.getState().toString())){
-            throw new HttpMessageNotReadableException("exception por tipo de state");
-        }else if(drone.getWeightLimit()>500){
+       //if(!drone.getState().isDroneState(drone.getState().toString())){
+        //    throw new HttpMessageNotReadableException("exception por tipo de state");
+        if(drone.getWeightLimit()>500){
             throw new MaxWeightException("The weiht limit max is 500grs");
 
         } else if(drone.getBatteryCapacity()<25){
             drone.setState(DroneStates.LOADING);
         }
+        List<Medication> emptyList=new ArrayList<Medication>();
+        drone.setLoad(emptyList);
         Drone savedDrone=droneRepository.save(drone);
         return savedDrone.mapToDronDTO();
     }

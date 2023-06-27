@@ -66,7 +66,13 @@ public class MedicationServiceIMP implements MedicationService{
 
     @Override
     public void deleteById(int id) {
-        medicationRepository.deleteById(id);
+        Medication targetLoad = medicationRepository.findById(id).get();
+        Drone targetDrone = droneRepository.findDroneByLoad(targetLoad);
+        List<Medication> targetList= targetDrone.getLoad();
+        targetList.remove(targetLoad);
+        targetDrone.setLoad(targetList);
+        droneRepository.save(targetDrone);
+        //medicationRepository.deleteById(id);
     }
 
 

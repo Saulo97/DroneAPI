@@ -2,10 +2,12 @@ package com.workspace.drones.models;
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import com.workspace.drones.dto.DroneDTO;
+import com.workspace.drones.dto.MedicationDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.valueextraction.ExtractedValue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,7 +35,7 @@ public class Drone {
     private int batteryCapacity;
     @Column(name = "state")
     private DroneStates state;
-    @OneToMany(mappedBy = "drone", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "drone", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
     private List<Medication> load;
 
     public int getId() {
@@ -99,6 +101,12 @@ public class Drone {
         droneDTO.setState(this.getState());
         droneDTO.setBatteryCapacity(this.getBatteryCapacity());
         droneDTO.setWeightLimit(this.getWeightLimit());
+        List<Medication> loadlist = this.getLoad();
+        List<MedicationDTO> loadListDTO = new ArrayList<MedicationDTO>();
+        loadlist.forEach(load->{
+            loadListDTO.add(load.mapToDTO());
+        });
+        droneDTO.setLoad(loadListDTO);
         return droneDTO;
     }
 
