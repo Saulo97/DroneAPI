@@ -5,7 +5,8 @@ COPY . /app/
 RUN mvn clean package -DskipTests
 
 FROM openjdk:17-alpine
-COPY --from=build /target/*.jar drones.jar
+WORKDIR /app
+COPY --from=build /app/target/*.jar /app/drones.jar
 
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "drones.jar"]
