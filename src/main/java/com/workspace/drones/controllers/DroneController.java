@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@CrossOrigin(origins = "*")
+@CrossOrigin()
 @RestController
 @RequestMapping("DroneAPI/Drone")
 public class DroneController {
