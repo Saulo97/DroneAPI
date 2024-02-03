@@ -8,5 +8,5 @@ FROM openjdk:17-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar /app/drones.jar
 
-EXPOSE 8080
+#EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "drones.jar"]
