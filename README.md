@@ -5,6 +5,13 @@ Todo el proyecto se encuentra en la rama master
 #el usuario de git es: Saulo97
 #el token para ese usuario:  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
 #El API se encuentra desplegada en el siguiente enlace https://drone-api-72q3.onrender.com
+```propierties
+PROD_DB_HOST=monorail.proxy.rlwy.net
+PROD_DB_PORT=51443
+PROD_DB_NAME=railway
+PROD_DB_PASSWORD=cbFaeGAfa1GGFGAeg2FGda-6F**-ceg*
+PROD_DB_USERNAME=postgres
+```
 
 #https://drone-api-72q3.onrender.com/DroneAPI/Drone/registerDrone endPoint para registrar un nuevo dron con la siguiente estructura:
 {
