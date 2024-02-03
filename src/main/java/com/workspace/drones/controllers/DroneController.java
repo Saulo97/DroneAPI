@@ -12,13 +12,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@CrossOrigin
+
 @RestController
 @RequestMapping("DroneAPI/Drone")
 public class DroneController {
     @Autowired
     private DroneServiceIMP droneServiceIMP;
-
+    @CrossOrigin
     @GetMapping
     @RequestMapping(value = "/getDrones", method = RequestMethod.GET)
     public ResponseEntity<List<DroneDTO>> getDrones(){
